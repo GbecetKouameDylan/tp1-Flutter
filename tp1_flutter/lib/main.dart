@@ -108,12 +108,11 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: 20.0),
           ElevatedButton(
             onPressed: () {
-Navigator.push(
-  context,MaterialPageRoute(
-    builder: (context) => LoginPage(),
-    )
-);
-
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                  ));
             },
             child: Text('S\'inscrire'),
           ),
@@ -121,7 +120,4 @@ Navigator.push(
       ),
     );
   }
-
-
 }
-
