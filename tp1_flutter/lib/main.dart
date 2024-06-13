@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tp1_flutter/connexion.dart';
 import 'package:dio/dio.dart';
 import 'package:tp1_flutter/transfert.dart';
-
 import 'lib_http.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -49,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
+      drawer: AppDrawer(), // Ajouter le tiroir de navigation ici
       body: Padding(
         padding: EdgeInsets.all(20.0),
         child: SignUpForm(),
@@ -64,7 +65,6 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _usernameController = TextEditingController();
-  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   final dio = Dio();
@@ -92,18 +92,6 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
           SizedBox(height: 20.0),
           TextFormField(
-            controller: _emailController,
-            decoration: InputDecoration(labelText: 'Adresse e-mail'),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Veuillez entrer une adresse e-mail';
-              }
-              // Add your own email validation logic here
-              return null;
-            },
-          ),
-          SizedBox(height: 20.0),
-          TextFormField(
             controller: _passwordController,
             decoration: InputDecoration(labelText: 'Mot de passe'),
             obscureText: true,
@@ -119,20 +107,105 @@ class _SignUpFormState extends State<SignUpForm> {
           ElevatedButton(
             onPressed: () async {
               SignupRequest req = SignupRequest();
-              req.username = _usernameController.toString();
-              req.password = _passwordController.toString();
+              req.username = _usernameController.text;
+              req.password = _passwordController.text;
               var reponse = await signup(req);
               print(reponse);
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-
-                    builder: (context) => LoginPage(),
-                  ));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ),
+              );
             },
             child: Text('S\'inscrire'),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// Ajout du tiroir de navigation
+class AppDrawer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Text(
+              'Menu',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.home),
+            title: Text('Home'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyHomePage(title: 'Inscription')),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.account_circle),
+            title: Text('Profile'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfileScreen()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsScreen()),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Écrans de navigation supplémentaires
+class ProfileScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Profile'),
+      ),
+      body: Center(
+        child: Text('Profile Screen'),
+      ),
+    );
+  }
+}
+
+class SettingsScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Settings'),
+      ),
+      body: Center(
+        child: Text('Settings Screen'),
       ),
     );
   }
