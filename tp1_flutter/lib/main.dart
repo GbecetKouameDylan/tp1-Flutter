@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tp1_flutter/connexion.dart';
 import 'package:dio/dio.dart';
+import 'package:tp1_flutter/transfert.dart';
+
+import 'lib_http.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -31,12 +34,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  final dio = Dio();
+
+  void getHttp() async {
+    final response = await dio.get('https://dart.dev');
+    print(response);
   }
 
   @override
@@ -63,6 +66,13 @@ class _SignUpFormState extends State<SignUpForm> {
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  final dio = Dio();
+
+  void getHttp() async {
+    final response = await dio.get('https://dart.dev');
+    print(response);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,10 +117,16 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
           SizedBox(height: 20.0),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
+              SignupRequest req = SignupRequest();
+              req.username = _usernameController.toString();
+              req.password = _passwordController.toString();
+              var reponse = await signup(req);
+              print(reponse);
               Navigator.push(
                   context,
                   MaterialPageRoute(
+
                     builder: (context) => LoginPage(),
                   ));
             },
