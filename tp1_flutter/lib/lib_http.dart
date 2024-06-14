@@ -5,7 +5,7 @@ import 'package:tp1_flutter/transfert.dart';
 Future<SigninResponse> signup(SignupRequest req) async {
   try {
     var response = await Dio().post(
-        'https://kickmyb-server.herokuapp.com/api/id/signup',
+        'https://http://localhost:8080/api/id/signup',
       data: req
     );
     print(response);

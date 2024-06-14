@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tp1_flutter/home.dart';
 import 'package:tp1_flutter/main.dart';
 
 void main() {
@@ -16,7 +17,6 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-
     );
   }
 }
@@ -70,12 +70,23 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   Navigator.push(
                       context,MaterialPageRoute(
-                      builder: (context) => SignUpForm(),
+                      builder: (context) => HomePage(),
                   )
                   );
                 },
                 child: Text('Se connecter'),
               ),
+              SizedBox(height: 20.0),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,MaterialPageRoute(
+                    builder: (context) => MyHomePage(title: 'Inscription'),
+                  )
+                  );
+                },
+                child: Text('S\'inscrire'),
+              )
             ],
           ),
         ),
