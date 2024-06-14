@@ -61,3 +61,11 @@ Map<String, dynamic> _$HomeItemResponseToJson(HomeItemResponse instance) =>
       'percentageDone': instance.percentageDone,
       'percentageTimeSpent': instance.percentageTimeSpent,
     };
+
+TrucAvecUneDate _$TrucAvecUneDateFromJson(Map<String, dynamic> json) =>
+    TrucAvecUneDate()..date = _fromJson(json['date'] as String);
+
+Map<String, dynamic> _$TrucAvecUneDateToJson(TrucAvecUneDate instance) =>
+    <String, dynamic>{
+      'date': _toJson(instance.date),
+    };

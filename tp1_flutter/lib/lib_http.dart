@@ -33,6 +33,21 @@ Future<SigninResponse> signin(SigninRequest req) async {
   }
 }
 
+Future<AddTaskRequest> Tache(AddTaskRequest req) async {
+  try {
+    var response = await Dio().post(
+      'http://10.0.2.2:8080/api/add',
+
+    );
+
+    print(response);
+    return AddTaskRequest.fromJson(response.data);
+  } catch (e) {
+    print(e);
+    throw(e);
+  }
+}
+
 Future signout() async {
   try {
     var response = await Dio().post(
@@ -46,11 +61,13 @@ Future signout() async {
   }
 }
 
-Future<List<HomeItemResponse>> home(SigninRequest req) async {
+
+
+Future<List<HomeItemResponse>> home() async {
   try {
-    var response = await Dio().post(
+    var response = await Dio().get(
         'http://10.0.2.2:8080/api/id/home',
-        data: req
+
     );
     var listeitem = response.data  as List;
     var liste = listeitem.map((elementJson){
@@ -63,4 +80,6 @@ Future<List<HomeItemResponse>> home(SigninRequest req) async {
     throw(e);
   }
 }
+
+
 

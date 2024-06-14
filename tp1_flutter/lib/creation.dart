@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tp1_flutter/connexion.dart';
 import 'package:tp1_flutter/home.dart';
 import 'package:tp1_flutter/main.dart';
+import 'package:tp1_flutter/transfert.dart';
 
 import 'lib_http.dart';
 
@@ -20,19 +21,18 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-
     );
   }
 }
 
 class CreationPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _CreationPageState createState() => _CreationPageState();
 }
 
-class _LoginPageState extends State<CreationPage> {
+class _CreationPageState extends State<CreationPage> {
   final _nomController = TextEditingController();
-  final _dateController = TextEditingController();
+  DateTime? _selectedDate; // Variable pour stocker la date sélectionnée
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class _LoginPageState extends State<CreationPage> {
       appBar: AppBar(
         title: Text('Creation de tache'),
       ),
-        drawer: AppDrawer(),
+      drawer: AppDrawer(),
       body: Padding(
         padding: EdgeInsets.all(20.0),
         child: Form(
@@ -53,29 +53,45 @@ class _LoginPageState extends State<CreationPage> {
                   if (value == null || value.isEmpty) {
                     return 'Veuillez entrer un nom de tache';
                   }
-                  // Add your own email validation logic here
                   return null;
                 },
               ),
               SizedBox(height: 20.0),
-              TextFormField(
-                controller: _dateController,
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer une date';
-                  }
-                  // Add your own password validation logic here
-                  return null;
+              InkWell(
+                onTap: () {
+                  _selectDate(context);
                 },
+                child: InputDecorator(
+                  decoration: InputDecoration(
+                    labelText: 'Date de deadline',
+                    border: OutlineInputBorder(),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        _selectedDate != null
+                            ? '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'
+                            : 'Sélectionner une date',
+                      ),
+                      Icon(Icons.calendar_today),
+                    ],
+                  ),
+                ),
               ),
               SizedBox(height: 20.0),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  AddTaskRequest req = AddTaskRequest();
+                  req.name = _nomController.text;
+                  TrucAvecUneDate aller = TrucAvecUneDate();
+                  aller.date = _selectedDate!;
+                  req.deadline = aller.date;
+                  var reponse = await Tache(req);
+                  print(reponse);
                   Navigator.push(
-                      context,MaterialPageRoute(
-                    builder: (context) => SignUpForm(),
-                  )
+                    context,
+                    MaterialPageRoute(builder: (context) => SignUpForm()),
                   );
                 },
                 child: Text('Ajouter'),
@@ -87,7 +103,23 @@ class _LoginPageState extends State<CreationPage> {
     );
   }
 
+  // Méthode pour afficher le sélecteur de date
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+    if (pickedDate != null && pickedDate != _selectedDate) {
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    }
+  }
 }
+
+
 // Ajout du tiroir de navigation
 class AppDrawer extends StatelessWidget {
   @override

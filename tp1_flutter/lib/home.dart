@@ -20,19 +20,36 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-
+      home: HomePage(), // Définir HomePage comme page d'accueil
     );
   }
 }
 
 class HomePage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _LoginPageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> {
 
-  List<HomeItemResponse> homeitem = [];
+  List<HomeItemResponse> homeItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData(); // Appel de la fonction pour récupérer les données au chargement de la page
+  }
+
+  Future<void> fetchData() async {
+    try {
+      List<HomeItemResponse> items = await home();
+      setState(() {
+        homeItems = items; // Mettre à jour la liste d'éléments avec les données récupérées
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,20 +60,29 @@ class _LoginPageState extends State<HomePage> {
       drawer: AppDrawer(),
       body: Padding(
         padding: EdgeInsets.all(20.0),
-        child: Form(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-
-
-            ],
-          ),
+        child: ListView.builder(
+          itemCount: homeItems.length,
+          itemBuilder: (context, index) {
+            return Card(
+              child: ListTile(
+                title: Text(homeItems[index].name),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Deadline: ${homeItems[index].deadline.toString()}'),
+                    Text('Percentage Done: ${homeItems[index].percentageDone}%'),
+                    Text('Percentage Time Spent: ${homeItems[index].percentageTimeSpent}%'),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
   }
-
 }
+
 // Ajout du tiroir de navigation
 class AppDrawer extends StatelessWidget {
   @override
