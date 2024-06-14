@@ -3,6 +3,8 @@ import 'package:tp1_flutter/connexion.dart';
 import 'package:tp1_flutter/home.dart';
 import 'package:tp1_flutter/main.dart';
 
+import 'lib_http.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -129,7 +131,9 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Deconnexion'),
-            onTap: () {
+            onTap: () async {
+              var reponse = await signout();
+              print (reponse);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => LoginPage()),

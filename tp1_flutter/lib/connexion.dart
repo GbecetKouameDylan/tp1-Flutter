@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tp1_flutter/home.dart';
 import 'package:tp1_flutter/main.dart';
+import 'package:tp1_flutter/transfert.dart';
+
+import 'lib_http.dart';
 
 void main() {
   runApp(const MyApp());
@@ -67,7 +70,12 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 20.0),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  SigninRequest req = SigninRequest();
+                  req.username = _nomController.text;
+                  req.password = _passwordController.text;
+                  var reponse = await signin(req);
+                  print(reponse);
                   Navigator.push(
                       context,MaterialPageRoute(
                       builder: (context) => HomePage(),

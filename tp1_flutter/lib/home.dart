@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tp1_flutter/connexion.dart';
 import 'package:tp1_flutter/creation.dart';
+import 'package:tp1_flutter/lib_http.dart';
 import 'package:tp1_flutter/main.dart';
+import 'package:tp1_flutter/transfert.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,6 +32,7 @@ class HomePage extends StatefulWidget {
 
 class _LoginPageState extends State<HomePage> {
 
+  List<HomeItemResponse> homeitem = [];
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +100,9 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Deconnexion'),
-            onTap: () {
+            onTap: () async {
+              var reponse = await signout();
+              print (reponse);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => LoginPage()),
