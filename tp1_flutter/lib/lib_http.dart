@@ -2,9 +2,20 @@
 import 'package:dio/dio.dart';
 import 'package:tp1_flutter/transfert.dart';
 
+
+class SingletonDio {
+  static var cookiemanager = CookieManager;
+
+  static Dio getDio() {
+    Dio dio = Dio();
+    dio.interceptors.add(cookiemanager);
+    return dio;
+  }
+}
+
 Future<SigninResponse> signup(SignupRequest req) async {
   try {
-    var response = await Dio().post(
+    var response = await SingletonDio.getDio().post(
         'http://10.0.2.2:8080/api/id/signup',
       data: req
     );
@@ -21,7 +32,7 @@ Future<SigninResponse> signup(SignupRequest req) async {
 
 Future<SigninResponse> signin(SigninRequest req) async {
   try {
-    var response = await Dio().post(
+    var response = await SingletonDio.getDio().post(
         'http://10.0.2.2:8080/api/id/signin',
         data: req
     );
@@ -35,7 +46,7 @@ Future<SigninResponse> signin(SigninRequest req) async {
 
 Future<AddTaskRequest> Tache(AddTaskRequest req) async {
   try {
-    var response = await Dio().post(
+    var response = await SingletonDio.getDio().post(
       'http://10.0.2.2:8080/api/add',
 
     );
@@ -50,7 +61,7 @@ Future<AddTaskRequest> Tache(AddTaskRequest req) async {
 
 Future signout() async {
   try {
-    var response = await Dio().post(
+    var response = await SingletonDio.getDio().post(
         'http://10.0.2.2:8080/api/id/signout',
 
     );
@@ -65,8 +76,8 @@ Future signout() async {
 
 Future<List<HomeItemResponse>> home() async {
   try {
-    var response = await Dio().get(
-        'http://10.0.2.2:8080/api/id/home',
+    var response = await SingletonDio.getDio().get(
+        'http://10.0.2.2:8080/api/id/home'
 
     );
     var listeitem = response.data  as List;
@@ -80,6 +91,7 @@ Future<List<HomeItemResponse>> home() async {
     throw(e);
   }
 }
+
 
 
 
