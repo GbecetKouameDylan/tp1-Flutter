@@ -21,14 +21,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class LoginPage extends StatefulWidget {
+class CreationPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<CreationPage> {
   final _nomController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _dateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                 controller: _nomController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer votre nom';
+                    return 'Veuillez entrer un nom de tache';
                   }
                   // Add your own email validation logic here
                   return null;
@@ -54,12 +54,11 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 20.0),
               TextFormField(
-                controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Mot de passe'),
+                controller: _dateController,
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer un mot de passe';
+                    return 'Veuillez entrer une date';
                   }
                   // Add your own password validation logic here
                   return null;
@@ -70,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   Navigator.push(
                       context,MaterialPageRoute(
-                      builder: (context) => SignUpForm(),
+                    builder: (context) => SignUpForm(),
                   )
                   );
                 },

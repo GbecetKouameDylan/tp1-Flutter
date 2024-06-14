@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tp1_flutter/connexion.dart';
 import 'package:dio/dio.dart';
+import 'package:tp1_flutter/creation.dart';
 import 'package:tp1_flutter/transfert.dart';
 import 'lib_http.dart';
 
@@ -158,21 +159,21 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.account_circle),
-            title: Text('Profile'),
+            title: Text('Ajout de tache'),
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ProfileScreen()),
+                MaterialPageRoute(builder: (context) => CreationPage()),
               );
             },
           ),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text('Settings'),
+            title: Text('Deconnexion'),
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SettingsScreen()),
+                MaterialPageRoute(builder: (context) => LoginPage()),
               );
             },
           ),
