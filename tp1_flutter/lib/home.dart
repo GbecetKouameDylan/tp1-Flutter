@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tp1_flutter/connexion.dart';
+import 'package:tp1_flutter/consultation.dart';
 import 'package:tp1_flutter/creation.dart';
 import 'package:tp1_flutter/lib_http.dart';
 import 'package:tp1_flutter/main.dart';
@@ -66,8 +67,16 @@ class _HomePageState extends State<HomePage> {
               child: ListTile(
                 title: GestureDetector(
                   onTap: () {
-                    // Gérer le tap sur le titre
-                    
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ConsultationPage(
+                          leParametre1: homeItems[index].deadline ,
+                          leParametre2: homeItems[index].percentageDone,
+                          leParametre3: homeItems[index].percentageTimeSpent
+                      ),
+                      ),
+                    );
+
                   },
                   child: Text(homeItems[index].name),
                 ),
@@ -76,22 +85,43 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // Gérer le tap sur le sous-titre
-                        print('Deadline cliquée: ${homeItems[index].deadline.toString()}');
+                        Navigator.push(
+                          context,
+                            MaterialPageRoute(builder: (context) => ConsultationPage(
+                            leParametre1: homeItems[index].deadline ,
+                            leParametre2: homeItems[index].percentageDone,
+                            leParametre3: homeItems[index].percentageTimeSpent
+                        ),
+                        ),
+                        );
                       },
                       child: Text('Deadline: ${homeItems[index].deadline.toString()}'),
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Gérer le tap sur le sous-titre
-                        print('Pourcentage terminé cliqué: ${homeItems[index].percentageDone}%');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ConsultationPage(
+                              leParametre1: homeItems[index].deadline ,
+                              leParametre2: homeItems[index].percentageDone,
+                              leParametre3: homeItems[index].percentageTimeSpent
+                          ),
+                          ),
+                        );
                       },
                       child: Text('Percentage Done: ${homeItems[index].percentageDone}%'),
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Gérer le tap sur le sous-titre
-                        print('Pourcentage de temps écoulé cliqué: ${homeItems[index].percentageTimeSpent}%');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ConsultationPage(
+                              leParametre1: homeItems[index].deadline ,
+                              leParametre2: homeItems[index].percentageDone,
+                              leParametre3: homeItems[index].percentageTimeSpent
+                          ),
+                          ),
+                        );
                       },
                       child: Text('Percentage Time Spent: ${homeItems[index].percentageTimeSpent}%'),
                     ),

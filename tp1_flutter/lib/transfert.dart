@@ -1,3 +1,6 @@
+
+
+
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -71,6 +74,20 @@ class HomeItemResponse {
 
   factory HomeItemResponse.fromJson(Map<String, dynamic> json) => _$HomeItemResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomeItemResponseToJson(this);
+}
+
+@JsonSerializable()
+class  TaskDetailResponse{
+
+  TaskDetailResponse();
+
+  String name = "";
+  DateTime deadline = DateTime(2024,6,14);
+  int percentageDone = 2;
+  double percentageTimeSpent=0.0;
+
+  factory TaskDetailResponse.fromJson(Map<String, dynamic> json) => _$TaskDetailResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$TaskDetailResponseToJson(this);
 }
 
 @JsonSerializable()

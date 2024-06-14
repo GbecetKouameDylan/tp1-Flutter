@@ -1,10 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:tp1_flutter/connexion.dart';
 import 'package:tp1_flutter/creation.dart';
 import 'package:tp1_flutter/home.dart';
 import 'package:tp1_flutter/lib_http.dart';
-import 'package:tp1_flutter/main.dart';
-import 'package:tp1_flutter/transfert.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -27,56 +28,72 @@ class MyApp extends StatelessWidget {
 
 class ConsultationPage extends StatefulWidget {
   @override
+  final DateTime leParametre1;
+  final int leParametre2;
+  final double leParametre3;
+
+  const ConsultationPage({Key? key, required this.leParametre1,required this.leParametre2,required this.leParametre3}): super(key: key);
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<ConsultationPage> {
 
-  List<HomeItemResponse> homeItems = [];
+
 
   @override
   void initState() {
     super.initState();
-    fetchData(); // Appel de la fonction pour récupérer les données au chargement de la page
   }
+  final _pourcentageController = TextEditingController();
 
-  Future<void> fetchData() async {
-    try {
-      List<HomeItemResponse> items = await home();
-      setState(() {
-        homeItems = items; // Mettre à jour la liste d'éléments avec les données récupérées
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text('Consultation'),
       ),
       drawer: AppDrawer(),
       body: Padding(
         padding: EdgeInsets.all(20.0),
-        child: ListView.builder(
-          itemCount: homeItems.length,
-          itemBuilder: (context, index) {
-            return Card(
-              child: ListTile(
-                title: Text(homeItems[index].name),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Deadline: ${homeItems[index].deadline.toString()}'),
-                    Text('Percentage Done: ${homeItems[index].percentageDone}%'),
-                    Text('Percentage Time Spent: ${homeItems[index].percentageTimeSpent}%'),
-                  ],
-                ),
+        child: Form(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+
+              Text("Date d'échéance de la tâche :"),SizedBox(height: 10.0),
+              Text("${widget.leParametre1.toString()}"),SizedBox(height: 10.0),
+              Text("Pourcentage d'avancement de la tache :"),SizedBox(height: 10.0),
+              Text("${widget.leParametre2.toString()}"),SizedBox(height: 10.0),
+              Text("Pourcentage de temps écoulé depuis la création de la tâche :"),SizedBox(height: 10.0),
+              Text("${widget.leParametre3.toString()}"),
+              SizedBox(height: 10.0),
+              TextFormField(
+                controller: _pourcentageController,
+                decoration: InputDecoration(labelText: 'Entrer un nombre'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Veuillez entrer un mot de passe';
+                  }
+                  // Add your own password validation logic here
+                  return null;
+                },
               ),
-            );
-          },
+              SizedBox(height: 10.0),
+              ElevatedButton(
+                onPressed: () {
+                 Detail(1,int.parse(_pourcentageController.text));
+                  Navigator.push(
+                      context,MaterialPageRoute(
+                    builder: (context) => HomePage(),
+                  )
+                  );
+                },
+                child: Text('Changer le pourcentage d avancement'),
+              )
+            ],
+          ),
         ),
       ),
     );

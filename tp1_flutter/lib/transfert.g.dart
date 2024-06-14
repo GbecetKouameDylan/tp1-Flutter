@@ -62,6 +62,21 @@ Map<String, dynamic> _$HomeItemResponseToJson(HomeItemResponse instance) =>
       'percentageTimeSpent': instance.percentageTimeSpent,
     };
 
+TaskDetailResponse _$TaskDetailResponseFromJson(Map<String, dynamic> json) =>
+    TaskDetailResponse()
+      ..name = json['name'] as String
+      ..deadline = DateTime.parse(json['deadline'] as String)
+      ..percentageDone = (json['percentageDone'] as num).toInt()
+      ..percentageTimeSpent = (json['percentageTimeSpent'] as num).toDouble();
+
+Map<String, dynamic> _$TaskDetailResponseToJson(TaskDetailResponse instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'deadline': instance.deadline.toIso8601String(),
+      'percentageDone': instance.percentageDone,
+      'percentageTimeSpent': instance.percentageTimeSpent,
+    };
+
 TrucAvecUneDate _$TrucAvecUneDateFromJson(Map<String, dynamic> json) =>
     TrucAvecUneDate()..date = _fromJson(json['date'] as String);
 

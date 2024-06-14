@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:tp1_flutter/transfert.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -19,7 +21,7 @@ class SingletonDio {
 class UserSession {
   static UserSession? _instance;
   String? username;
-  
+
   UserSession._();
 
   static UserSession getInstance() {
@@ -115,6 +117,28 @@ Future<List<HomeItemResponse>> home() async {
     throw(e);
   }
 }
+
+Future<TaskDetailResponse> Detail(int id, int valeur) async {
+  try {
+    var response = await SingletonDio.getDio().get(
+      'http://10.0.2.2:8080/api/progress/'+id.toString()+'/'+valeur.toString(),
+    );
+
+    print(response);
+    return TaskDetailResponse.fromJson(response.data);
+  } catch (e) {
+    print(e);
+    throw(e);
+  }
+}
+
+class Long {
+  final int value;
+
+  Long(this.value);
+}
+
+
 
 
 
