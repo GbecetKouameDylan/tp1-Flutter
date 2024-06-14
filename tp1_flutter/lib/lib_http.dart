@@ -4,6 +4,8 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 
 
+
+
 class SingletonDio {
   static var cookiemanager = CookieManager(CookieJar());
 
@@ -14,6 +16,25 @@ class SingletonDio {
   }
 }
 
+class UserSession {
+  static UserSession? _instance;
+  String? username;
+  
+  UserSession._();
+
+  static UserSession getInstance() {
+    _instance ??= UserSession._();
+    return _instance!;
+  }
+
+  String? getUsername() {
+    return username;
+  }
+
+  void setUsername(String username) {
+    this.username = username;
+  }
+}
 
 
 Future<SigninResponse> signup(SignupRequest req) async {

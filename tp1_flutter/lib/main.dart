@@ -103,6 +103,7 @@ class _SignUpFormState extends State<SignUpForm> {
               req.username = _usernameController.text;
               req.password = _passwordController.text;
               var reponse = await signup(req);
+              UserSession.getInstance().setUsername(reponse.username);
               print(reponse);
               Navigator.push(
                 context,

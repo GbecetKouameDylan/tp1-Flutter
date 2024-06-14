@@ -96,7 +96,7 @@ class AppDrawer extends StatelessWidget {
               color: Colors.blue,
             ),
             child: Text(
-              'Menu',
+              'Bonjour ${UserSession.getInstance().username}',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,

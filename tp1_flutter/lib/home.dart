@@ -64,13 +64,37 @@ class _HomePageState extends State<HomePage> {
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(
-                title: Text(homeItems[index].name),
+                title: GestureDetector(
+                  onTap: () {
+                    // Gérer le tap sur le titre
+                    
+                  },
+                  child: Text(homeItems[index].name),
+                ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Deadline: ${homeItems[index].deadline.toString()}'),
-                    Text('Percentage Done: ${homeItems[index].percentageDone}%'),
-                    Text('Percentage Time Spent: ${homeItems[index].percentageTimeSpent}%'),
+                    GestureDetector(
+                      onTap: () {
+                        // Gérer le tap sur le sous-titre
+                        print('Deadline cliquée: ${homeItems[index].deadline.toString()}');
+                      },
+                      child: Text('Deadline: ${homeItems[index].deadline.toString()}'),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        // Gérer le tap sur le sous-titre
+                        print('Pourcentage terminé cliqué: ${homeItems[index].percentageDone}%');
+                      },
+                      child: Text('Percentage Done: ${homeItems[index].percentageDone}%'),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        // Gérer le tap sur le sous-titre
+                        print('Pourcentage de temps écoulé cliqué: ${homeItems[index].percentageTimeSpent}%');
+                      },
+                      child: Text('Percentage Time Spent: ${homeItems[index].percentageTimeSpent}%'),
+                    ),
                   ],
                 ),
               ),
@@ -105,7 +129,7 @@ class AppDrawer extends StatelessWidget {
               color: Colors.blue,
             ),
             child: Text(
-              'Menu',
+              'Bonjour ${UserSession.getInstance().username}',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,

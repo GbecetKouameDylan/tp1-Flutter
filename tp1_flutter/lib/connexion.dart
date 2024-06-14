@@ -75,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                   req.username = _nomController.text;
                   req.password = _passwordController.text;
                   var reponse = await signin(req);
+                  UserSession.getInstance().setUsername(reponse.username);
                   print(reponse);
                   Navigator.push(
                       context,MaterialPageRoute(
