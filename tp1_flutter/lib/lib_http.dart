@@ -5,7 +5,7 @@ import 'package:tp1_flutter/transfert.dart';
 Future<SigninResponse> signup(SignupRequest req) async {
   try {
     var response = await Dio().post(
-        'https://http://localhost:8080/api/id/signup',
+        'http://10.0.2.2:8080/api/id/signup',
       data: req
     );
     print(response);
@@ -15,5 +15,7 @@ Future<SigninResponse> signup(SignupRequest req) async {
     print(e);
     throw(e);
   }
+
+
 }
 

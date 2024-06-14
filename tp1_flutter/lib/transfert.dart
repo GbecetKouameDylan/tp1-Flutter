@@ -30,6 +30,48 @@ class SigninResponse {
   factory SigninResponse.fromJson(Map<String, dynamic> json) => _$SigninResponseFromJson(json);
   Map<String, dynamic> toJson() => _$SigninResponseToJson(this);
 }
+@JsonSerializable()
+
+class SigninRequest {
+
+  SigninRequest();
+
+  String username = "";
+  String password = "";
+
+  factory SigninRequest.fromJson(Map<String, dynamic> json) => _$SigninRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$SigninRequestToJson(this);
+}
+
+@JsonSerializable()
+
+class AddTaskRequest {
+
+  AddTaskRequest();
+
+  String name = "";
+  DateTime deadline = DateTime(2024,6,14);
+
+  factory AddTaskRequest.fromJson(Map<String, dynamic> json) => _$AddTaskRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$AddTaskRequestToJson(this);
+}
+
+@JsonSerializable()
+
+class HomeItemResponse {
+
+  HomeItemResponse();
+
+  String name = "";
+  DateTime deadline = DateTime(2024,6,14);
+  int percentageDone = 0;
+  double percentageTimeSpent = 0.0;
+
+  factory HomeItemResponse.fromJson(Map<String, dynamic> json) => _$HomeItemResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$HomeItemResponseToJson(this);
+}
+
+
 
 
 
