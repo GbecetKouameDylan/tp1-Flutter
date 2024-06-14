@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomePage(), // Définir HomePage comme page d'accueil
     );
   }
 }
@@ -37,14 +36,14 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    fetchData(); // Appel de la fonction pour récupérer les données au chargement de la page
+    Liste();
   }
 
-  Future<void> fetchData() async {
+  Future<void> Liste() async {
     try {
       List<HomeItemResponse> items = await home();
       setState(() {
-        homeItems = items; // Mettre à jour la liste d'éléments avec les données récupérées
+        homeItems = items;
       });
     } catch (e) {
       print(e);
@@ -79,6 +78,16 @@ class _HomePageState extends State<HomePage> {
           },
         ),
       ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CreationPage()),
+            );
+          },
+          tooltip: 'Increment',
+          child: const Icon(Icons.add),
+        )
     );
   }
 }
@@ -138,6 +147,7 @@ class AppDrawer extends StatelessWidget {
         ],
       ),
     );
+
   }
 }
 
@@ -169,4 +179,5 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 }
+
 
