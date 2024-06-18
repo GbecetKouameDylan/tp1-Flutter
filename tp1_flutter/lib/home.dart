@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tp1_flutter/connexion.dart';
 import 'package:tp1_flutter/consultation.dart';
 import 'package:tp1_flutter/creation.dart';
 import 'package:tp1_flutter/lib_http.dart';
 import 'package:tp1_flutter/main.dart';
 import 'package:tp1_flutter/transfert.dart';
+
+import 'generated/l10n.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +19,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -55,7 +64,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text(S.of(context).Home),
       ),
       drawer: AppDrawer(),
       body: Padding(
@@ -95,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         );
                       },
-                      child: Text('Deadline: ${homeItems[index].deadline.toString()}'),
+                      child: Text(' ${homeItems[index].deadline.toString()}'),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -109,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         );
                       },
-                      child: Text('Percentage Done: ${homeItems[index].percentageDone}%'),
+                      child: Text(' ${homeItems[index].percentageDone}%'),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -123,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         );
                       },
-                      child: Text('Percentage Time Spent: ${homeItems[index].percentageTimeSpent}%'),
+                      child: Text(' ${homeItems[index].percentageTimeSpent}%'),
                     ),
                   ],
                 ),
@@ -159,7 +168,7 @@ class AppDrawer extends StatelessWidget {
               color: Colors.blue,
             ),
             child: Text(
-              'Bonjour ${UserSession.getInstance().username}',
+              ' ${UserSession.getInstance().username}',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
@@ -168,7 +177,7 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.home),
-            title: Text('Home'),
+            title: Text(S.of(context).Home),
             onTap: () {
               Navigator.push(
                 context,
@@ -178,7 +187,7 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.account_circle),
-            title: Text('Ajout de tache'),
+            title: Text(S.of(context).AddATask),
             onTap: () {
               Navigator.push(
                 context,
@@ -188,7 +197,7 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text('Deconnexion'),
+            title: Text(S.of(context).LogOut),
             onTap: () async {
               var reponse = await signout();
               print (reponse);
@@ -205,33 +214,6 @@ class AppDrawer extends StatelessWidget {
   }
 }
 
-// Écrans de navigation supplémentaires
-class ProfileScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-      ),
-      body: Center(
-        child: Text('Profile Screen'),
-      ),
-    );
-  }
-}
 
-class SettingsScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Settings'),
-      ),
-      body: Center(
-        child: Text('Settings Screen'),
-      ),
-    );
-  }
-}
 
 

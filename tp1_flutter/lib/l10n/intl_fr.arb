@@ -1,0 +1,22 @@
+{
+  "userName":"nom d'utilisateur",
+  "QName": "Veuillez entrer un nom d'utilisateur",
+  "Password": "Mot de passe",
+  "QPassword": "Veuillez entrer un mot de passe",
+  "Signup": "S'inscrire",
+  "Home": "Accueil",
+  "Deadline": "Date limite",
+  "AddATask": "Ajouter une task",
+  "LogOut": "Deconnecter",
+  "Creationoftask": "Creation de Tache",
+  "Task": "Tache",
+  "QTask":"Veuillez entrer un nom de tache",
+  "Choose": "Sélectionner une date",
+  "Consultation": "Consulatation",
+  "Number": "Nombre",
+  "QNumber": "Enter un nombre",
+  "Change": "Changer le pourcentage d avancement",
+  "Percentage": "Pourcentage de la Tache :",
+  "PercentageDeadline": "Pourcentage de temps écoulé depuis la création de la tâche :",
+  "Connexion": "Se connecter"
+}

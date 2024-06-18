@@ -1,0 +1,22 @@
+{
+  "userName":"Username",
+  "QName": "Enter a username",
+  "Password": "Password",
+  "QPassword": "Enter a password",
+  "Signup": "Signup",
+  "Home": "Home",
+  "Deadline": "Deadline",
+  "AddATask": "Add a task",
+  "LogOut": "Log out",
+  "Creationoftask": "Creation of task",
+  "Task": "Task",
+  "QTask":"Enter a name for your task",
+  "Choose": "Chosse a date",
+  "Consultation": "Consulatation",
+  "Number": "Number",
+  "QNumber": "Enter a number",
+  "Change": "Swicht the percentage",
+  "Percentage": "Task Percentage :",
+  "PercentageDeadline": "Percentage between the date of the Task and now :",
+  "Connexion": "Connexion"
+}

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tp1_flutter/connexion.dart';
 import 'package:dio/dio.dart';
 import 'package:tp1_flutter/creation.dart';
 import 'package:tp1_flutter/home.dart';
 import 'package:tp1_flutter/transfert.dart';
+import 'generated/l10n.dart';
 import 'lib_http.dart';
 
 void main() {
@@ -16,7 +18,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -75,10 +83,10 @@ class _SignUpFormState extends State<SignUpForm> {
         children: <Widget>[
           TextFormField(
             controller: _usernameController,
-            decoration: InputDecoration(labelText: 'Nom d\'utilisateur'),
+            decoration: InputDecoration(labelText: S.of(context).userName),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Veuillez entrer un nom d\'utilisateur';
+                return S.of(context).QName;
               }
               return null;
             },
@@ -86,13 +94,13 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: 20.0),
           TextFormField(
             controller: _passwordController,
-            decoration: InputDecoration(labelText: 'Mot de passe'),
+            decoration: InputDecoration(labelText: S.of(context).Password),
             obscureText: true,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Veuillez entrer un mot de passe';
+                return S.of(context).QPassword;
               }
-              // Add your own password validation logic here
+
               return null;
             },
           ),
@@ -112,7 +120,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 ),
               );
             },
-            child: Text('S\'inscrire'),
+            child: Text(S.of(context).Signup),
           ),
         ],
       ),

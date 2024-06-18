@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tp1_flutter/connexion.dart';
 import 'package:tp1_flutter/home.dart';
 import 'package:tp1_flutter/main.dart';
 import 'package:tp1_flutter/transfert.dart';
 
+import 'generated/l10n.dart';
 import 'lib_http.dart';
 
 void main() {
@@ -16,7 +18,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -38,7 +46,7 @@ class _CreationPageState extends State<CreationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Creation de tache'),
+        title: Text(S.of(context).Creationoftask),
       ),
       drawer: AppDrawer(),
       body: Padding(
@@ -49,9 +57,10 @@ class _CreationPageState extends State<CreationPage> {
             children: <Widget>[
               TextFormField(
                 controller: _nomController,
+              decoration: InputDecoration(labelText: S.of(context).Task),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer un nom de tache';
+                    return S.of(context).QTask;
                   }
                   return null;
                 },
@@ -63,7 +72,7 @@ class _CreationPageState extends State<CreationPage> {
                 },
                 child: InputDecorator(
                   decoration: InputDecoration(
-                    labelText: 'Date de deadline',
+                    labelText: S.of(context).Deadline,
                     border: OutlineInputBorder(),
                   ),
                   child: Row(
@@ -72,7 +81,7 @@ class _CreationPageState extends State<CreationPage> {
                       Text(
                         _selectedDate != null
                             ? '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'
-                            : 'Sélectionner une date',
+                            : S.of(context).Choose,
                       ),
                       Icon(Icons.calendar_today),
                     ],
@@ -94,7 +103,7 @@ class _CreationPageState extends State<CreationPage> {
                     MaterialPageRoute(builder: (context) => SignUpForm()),
                   );
                 },
-                child: Text('Ajouter'),
+                child: Text(S.of(context).AddATask),
               ),
             ],
           ),
@@ -133,7 +142,7 @@ class AppDrawer extends StatelessWidget {
               color: Colors.blue,
             ),
             child: Text(
-              'Bonjour ${UserSession.getInstance().username}',
+              ' ${UserSession.getInstance().username}',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
@@ -142,7 +151,7 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.home),
-            title: Text('Home'),
+            title: Text(S.of(context).Home),
             onTap: () {
               Navigator.push(
                 context,
@@ -152,7 +161,7 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.account_circle),
-            title: Text('Ajout de tache'),
+            title: Text(S.of(context).AddATask),
             onTap: () {
               Navigator.push(
                 context,
@@ -162,7 +171,7 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text('Deconnexion'),
+            title: Text(S.of(context).LogOut),
             onTap: () async {
               var reponse = await signout();
               print (reponse);
@@ -178,32 +187,5 @@ class AppDrawer extends StatelessWidget {
   }
 }
 
-// Écrans de navigation supplémentaires
-class ProfileScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-      ),
-      body: Center(
-        child: Text('Profile Screen'),
-      ),
-    );
-  }
-}
 
-class SettingsScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Settings'),
-      ),
-      body: Center(
-        child: Text('Settings Screen'),
-      ),
-    );
-  }
-}
 

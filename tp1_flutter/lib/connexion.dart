@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tp1_flutter/home.dart';
 import 'package:tp1_flutter/main.dart';
 import 'package:tp1_flutter/transfert.dart';
 
+import 'generated/l10n.dart';
 import 'lib_http.dart';
 
 void main() {
@@ -15,7 +17,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -37,7 +45,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Connexion'),
+        title: Text(S.of(context).Connexion),
+
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
@@ -47,22 +56,23 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               TextFormField(
                 controller: _nomController,
+              decoration: InputDecoration(labelText:S.of(context).userName),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer votre nom';
+                    return S.of(context).QName;
                   }
-                  // Add your own email validation logic here
+
                   return null;
                 },
               ),
               SizedBox(height: 20.0),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Mot de passe'),
+                decoration: InputDecoration(labelText: S.of(context).Password),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer un mot de passe';
+                    return S.of(context).QPassword;
                   }
                   // Add your own password validation logic here
                   return null;
@@ -83,18 +93,18 @@ class _LoginPageState extends State<LoginPage> {
                   )
                   );
                 },
-                child: Text('Se connecter'),
+                child: Text(S.of(context).Connexion),
               ),
               SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                       context,MaterialPageRoute(
-                    builder: (context) => MyHomePage(title: 'Inscription'),
+                    builder: (context) => MyHomePage(title: S.of(context).Signup),
                   )
                   );
                 },
-                child: Text('S\'inscrire'),
+                child: Text(S.of(context).Signup),
               )
             ],
           ),
