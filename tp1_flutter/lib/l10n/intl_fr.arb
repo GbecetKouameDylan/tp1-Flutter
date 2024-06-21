@@ -18,5 +18,7 @@
   "Change": "Changer le pourcentage d avancement",
   "Percentage": "Pourcentage de la Tache :",
   "PercentageDeadline": "Pourcentage de temps écoulé depuis la création de la tâche :",
-  "Connexion": "Se connecter"
+  "Connexion": "Se connecter",
+  "Image": "Choisi une image",
+"Simage": "Envoyer une image"
 }

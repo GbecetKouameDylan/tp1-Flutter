@@ -1,7 +1,10 @@
 import 'dart:ffi';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tp1_flutter/connexion.dart';
 import 'package:tp1_flutter/creation.dart';
 import 'package:tp1_flutter/home.dart';
@@ -46,8 +49,33 @@ class ConsultationPage extends StatefulWidget {
 }
 
 class _HomePageState extends State<ConsultationPage> {
+  String imageURL = "";
+ String imagepath = "";
+XFile? pickedImage;
+ void getimage() async
+{
+  ImagePicker Picker = ImagePicker();
+ pickedImage = await Picker.pickImage(source: ImageSource.gallery);
+imagepath = pickedImage!.path;
+setState(() {});
+}
 
+void sendimage() async
+{
+  FormData formData = FormData.fromMap({
+    "file": await MultipartFile.fromFile(pickedImage!.path,filename: pickedImage!.name)
+  });
 
+  Dio dio = Dio();
+ var response = await dio.post("http://10.0.2.2:8080/file", data: formData);
+
+ String id = response.data as String;
+
+ imageURL = "http://10.0.2.2:8080/file/" + id;
+ setState(() {
+
+ });
+}
 
   @override
   void initState() {
@@ -71,12 +99,19 @@ class _HomePageState extends State<ConsultationPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
 
+              (imagepath=="")?Text("djwidjwi"):Image.file(File(imagepath)),
+
+              (imageURL=="")?Text("djwidjwi"):Image.network(imageURL),
+
               Text(S.of(context).Deadline),SizedBox(height: 10.0),
               Text("${widget.leParametre1.toString()}"),SizedBox(height: 10.0),
+
               Text(S.of(context).Percentage),SizedBox(height: 10.0),
               Text("${widget.leParametre2.toString()}"),SizedBox(height: 10.0),
+
               Text(S.of(context).PercentageDeadline),SizedBox(height: 10.0),
               Text("${widget.leParametre3.toString()}"),
+
               SizedBox(height: 10.0),
               TextFormField(
                 controller: _pourcentageController,
@@ -100,6 +135,18 @@ class _HomePageState extends State<ConsultationPage> {
                   );
                 },
                 child: Text(S.of(context).Change),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  getimage();
+                },
+                child: Text(S.of(context).Image),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  sendimage();
+                },
+                child: Text(S.of(context).Simage),
               )
             ],
           ),

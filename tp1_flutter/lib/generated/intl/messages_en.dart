@@ -31,6 +31,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Creation of task"),
         "Deadline": MessageLookupByLibrary.simpleMessage("Deadline"),
         "Home": MessageLookupByLibrary.simpleMessage("Home"),
+        "Image": MessageLookupByLibrary.simpleMessage("Choose a image"),
         "LogOut": MessageLookupByLibrary.simpleMessage("Log out"),
         "Number": MessageLookupByLibrary.simpleMessage("Number"),
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
@@ -43,6 +44,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "QTask":
             MessageLookupByLibrary.simpleMessage("Enter a name for your task"),
         "Signup": MessageLookupByLibrary.simpleMessage("Signup"),
+        "Simage": MessageLookupByLibrary.simpleMessage("Send a image"),
         "Task": MessageLookupByLibrary.simpleMessage("Task"),
         "userName": MessageLookupByLibrary.simpleMessage("Username")
       };

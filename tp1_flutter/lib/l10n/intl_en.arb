@@ -18,5 +18,7 @@
   "Change": "Swicht the percentage",
   "Percentage": "Task Percentage :",
   "PercentageDeadline": "Percentage between the date of the Task and now :",
-  "Connexion": "Connexion"
+  "Connexion": "Connexion",
+  "Image": "Choose a image",
+  "Simage": "Send a image"
 }

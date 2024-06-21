@@ -249,6 +249,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Choose a image`
+  String get Image {
+    return Intl.message(
+      'Choose a image',
+      name: 'Image',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send a image`
+  String get Simage {
+    return Intl.message(
+      'Send a image',
+      name: 'Simage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
