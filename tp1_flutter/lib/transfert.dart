@@ -54,6 +54,7 @@ class AddTaskRequest {
 
   AddTaskRequest();
 
+
   String name = "";
   DateTime deadline = DateTime(2024,6,14);
 
@@ -63,31 +64,32 @@ class AddTaskRequest {
 
 @JsonSerializable()
 
-class HomeItemResponse {
+class HomeItemPhotoResponse {
 
-  HomeItemResponse();
+  HomeItemPhotoResponse();
 
+  int id = 0;
   String name = "";
   DateTime deadline = DateTime(2024,6,14);
   int percentageDone = 0;
   double percentageTimeSpent = 0.0;
-
-  factory HomeItemResponse.fromJson(Map<String, dynamic> json) => _$HomeItemResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$HomeItemResponseToJson(this);
+int photoId = 0;
+  factory HomeItemPhotoResponse.fromJson(Map<String, dynamic> json) => _$HomeItemPhotoResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$HomeItemPhotoResponseToJson(this);
 }
 
 @JsonSerializable()
-class  TaskDetailResponse{
+class  TaskDetailPhotoResponse{
 
-  TaskDetailResponse();
-
+  TaskDetailPhotoResponse();
+int id = 0;
   String name = "";
   DateTime deadline = DateTime(2024,6,14);
   int percentageDone = 2;
   double percentageTimeSpent=0.0;
-
-  factory TaskDetailResponse.fromJson(Map<String, dynamic> json) => _$TaskDetailResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$TaskDetailResponseToJson(this);
+int photoId = 0;
+  factory TaskDetailPhotoResponse.fromJson(Map<String, dynamic> json) => _$TaskDetailPhotoResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$TaskDetailPhotoResponseToJson(this);
 }
 
 @JsonSerializable()

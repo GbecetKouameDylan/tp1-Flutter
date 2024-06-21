@@ -1,5 +1,9 @@
 import 'dart:ffi';
+import 'dart:io';
 
+
+
+import 'package:image_picker/image_picker.dart';
 import 'package:tp1_flutter/transfert.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -70,7 +74,7 @@ Future<SigninResponse> signin(SigninRequest req) async {
   }
 }
 
-Future<AddTaskRequest> Tache(AddTaskRequest req) async {
+Future<String> Tache(AddTaskRequest req) async {
   try {
     var response = await SingletonDio.getDio().post(
       'http://10.0.2.2:8080/api/add',data: req.toJson()
@@ -78,7 +82,7 @@ Future<AddTaskRequest> Tache(AddTaskRequest req) async {
     );
 
     print(response);
-    return AddTaskRequest.fromJson(response.data);
+    return "";
   } catch (e) {
     print(e);
     throw(e);
@@ -100,15 +104,15 @@ Future signout() async {
 
 
 
-Future<List<HomeItemResponse>> home() async {
+Future<List<HomeItemPhotoResponse>> home() async {
   try {
     var response = await SingletonDio.getDio().get(
-        'http://10.0.2.2:8080/api/home',
+        'http://10.0.2.2:8080/api/home/photo',
 
     );
     var listeitem = response.data  as List;
     var liste = listeitem.map((elementJson){
-      return HomeItemResponse.fromJson(elementJson);
+      return HomeItemPhotoResponse.fromJson(elementJson);
     }).toList();
     print(response);
     return liste;
@@ -118,25 +122,51 @@ Future<List<HomeItemResponse>> home() async {
   }
 }
 
-Future<TaskDetailResponse> Detail(int id, int valeur) async {
+Future<TaskDetailPhotoResponse> Detail(int id) async {
   try {
     var response = await SingletonDio.getDio().get(
-      'http://10.0.2.2:8080/api/progress/'+id.toString()+'/'+valeur.toString(),
+      'http://10.0.2.2:8080/api/detail/photo/'+id.toString()
     );
 
     print(response);
-    return TaskDetailResponse.fromJson(response.data);
+    return TaskDetailPhotoResponse.fromJson(response.data);
   } catch (e) {
     print(e);
     throw(e);
   }
 }
 
+Future<String> sendPicture(int taskID, File file) async {
+  try{
+    FormData formData = FormData.fromMap({
+      "taskID": taskID,
+      "file": await MultipartFile.fromFile(file.path)
+    });
+    var url = "http://10.0.2.2:8080/file";
+    var response = await SingletonDio.getDio().post(url, data: formData);
+    print(response.data);
+    return "";
+  }catch (e) {
+    print(e);
+    throw(e);
+  }
+
+
+
+}
+
+
 class Long {
   final int value;
 
   Long(this.value);
 }
+
+
+
+
+
+
 
 
 

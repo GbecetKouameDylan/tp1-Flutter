@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tp1_flutter/home.dart';
@@ -7,7 +8,7 @@ import 'package:tp1_flutter/transfert.dart';
 import 'generated/l10n.dart';
 import 'lib_http.dart';
 
-void main() {
+/*void main() {
   runApp(const MyApp());
 }
 
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-}
+}*/
 
 class LoginPage extends StatefulWidget {
   @override
@@ -40,7 +41,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _nomController = TextEditingController();
   final _passwordController = TextEditingController();
-
+bool loading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,27 +81,16 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 20.0),
               ElevatedButton(
-                onPressed: () async {
-                  SigninRequest req = SigninRequest();
-                  req.username = _nomController.text;
-                  req.password = _passwordController.text;
-                  var reponse = await signin(req);
-                  UserSession.getInstance().setUsername(reponse.username);
-                  print(reponse);
-                  Navigator.push(
-                      context,MaterialPageRoute(
-                      builder: (context) => HomePage(),
-                  )
-                  );
-                },
-                child: Text(S.of(context).Connexion),
+                onPressed: loading?null:Signin,
+                child: this.loading?CircularProgressIndicator():
+                Text(S.of(context).Connexion),
               ),
               SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                       context,MaterialPageRoute(
-                    builder: (context) => MyHomePage(title: S.of(context).Signup),
+                    builder: (context) => SignUpPage(title: S.of(context).Signup),
                   )
                   );
                 },
@@ -111,6 +101,43 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  Future<void> Signin() async {
+    setState(() {
+      this.loading = true;
+    });
+    try{
+      SigninRequest req = SigninRequest();
+      req.username = _nomController.text;
+      req.password = _passwordController.text;
+      var reponse = await signin(req);
+      setState(() {
+        this.loading = false;
+      });
+      UserSession.getInstance().setUsername(reponse.username);
+      print(reponse);
+      Navigator.push(
+          context,MaterialPageRoute(
+        builder: (context) => HomePage(),
+      )
+      );
+    }
+    on DioException catch(e)
+    {
+      setState(() {
+        this.loading = false;
+      });
+      print(e);
+      String message = e.response!.data;
+      if (message == "BadCredentialsException") {
+        print('login deja utilise');
+      } else {
+        print('autre erreurs');
+      }
+    }
+
+
   }
 
 }

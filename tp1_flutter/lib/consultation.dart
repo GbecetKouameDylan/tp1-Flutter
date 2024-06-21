@@ -9,9 +9,9 @@ import 'package:tp1_flutter/connexion.dart';
 import 'package:tp1_flutter/creation.dart';
 import 'package:tp1_flutter/home.dart';
 import 'package:tp1_flutter/lib_http.dart';
+import 'package:tp1_flutter/transfert.dart';
 
 import 'generated/l10n.dart';
-
 
 void main() {
   runApp(const MyApp());
@@ -40,50 +40,55 @@ class MyApp extends StatelessWidget {
 
 class ConsultationPage extends StatefulWidget {
   @override
-  final DateTime leParametre1;
-  final int leParametre2;
-  final double leParametre3;
 
-  const ConsultationPage({Key? key, required this.leParametre1,required this.leParametre2,required this.leParametre3}): super(key: key);
-  _HomePageState createState() => _HomePageState();
+
+  final int taskId;
+
+  const ConsultationPage(
+      {Key? key,
+        required this.taskId,
+      })
+      : super(key: key);
+
+  _ConsultationPageState createState() => _ConsultationPageState();
 }
 
-class _HomePageState extends State<ConsultationPage> {
+class _ConsultationPageState extends State<ConsultationPage> {
   String imageURL = "";
- String imagepath = "";
-XFile? pickedImage;
- void getimage() async
-{
-  ImagePicker Picker = ImagePicker();
- pickedImage = await Picker.pickImage(source: ImageSource.gallery);
-imagepath = pickedImage!.path;
-setState(() {});
-}
+  String imagepath = "";
+  var _imageFile;
 
-void sendimage() async
-{
-  FormData formData = FormData.fromMap({
-    "file": await MultipartFile.fromFile(pickedImage!.path,filename: pickedImage!.name)
-  });
+  void getimage() async {
+    ImagePicker picker = ImagePicker();
 
-  Dio dio = Dio();
- var response = await dio.post("http://10.0.2.2:8080/file", data: formData);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      print("l'image a ete choisie ${pickedFile.path}");
+      _imageFile = File(pickedFile.path);
+    }
+    setState(() {});
+  }
 
- String id = response.data as String;
-
- imageURL = "http://10.0.2.2:8080/file/" + id;
- setState(() {
-
- });
-}
+  TaskDetailPhotoResponse ?tachecourante ;
 
   @override
   void initState() {
+    getTask();
     super.initState();
+
   }
+
+
+  Future <TaskDetailPhotoResponse> getTask() async {
+    //lib http gettask()
+TaskDetailPhotoResponse taskDetailResponse = await Detail(widget.taskId);
+    setState(() {
+      tachecourante = taskDetailResponse;
+    });
+    return taskDetailResponse;
+  }
+
   final _pourcentageController = TextEditingController();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -98,20 +103,18 @@ void sendimage() async
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-
-              (imagepath=="")?Text("djwidjwi"):Image.file(File(imagepath)),
-
-              (imageURL=="")?Text("djwidjwi"):Image.network(imageURL),
-
-              Text(S.of(context).Deadline),SizedBox(height: 10.0),
-              Text("${widget.leParametre1.toString()}"),SizedBox(height: 10.0),
-
-              Text(S.of(context).Percentage),SizedBox(height: 10.0),
-              Text("${widget.leParametre2.toString()}"),SizedBox(height: 10.0),
-
-              Text(S.of(context).PercentageDeadline),SizedBox(height: 10.0),
-              Text("${widget.leParametre3.toString()}"),
-
+              _imageFile != null ? Image.file(_imageFile) : Spacer(),
+              Text(S.of(context).Deadline),
+              SizedBox(height: 10.0),
+              Text("${tachecourante?.deadline}"),
+              SizedBox(height: 10.0),
+              Text(S.of(context).Percentage),
+              SizedBox(height: 10.0),
+              Text("${tachecourante?.percentageDone}"),
+              SizedBox(height: 10.0),
+              Text(S.of(context).PercentageDeadline),
+              SizedBox(height: 10.0),
+              Text("${tachecourante?.percentageTimeSpent}"),
               SizedBox(height: 10.0),
               TextFormField(
                 controller: _pourcentageController,
@@ -127,12 +130,11 @@ void sendimage() async
               SizedBox(height: 10.0),
               ElevatedButton(
                 onPressed: () {
-                 Detail(1,int.parse(_pourcentageController.text));
                   Navigator.push(
-                      context,MaterialPageRoute(
-                    builder: (context) => HomePage(),
-                  )
-                  );
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(),
+                      ));
                 },
                 child: Text(S.of(context).Change),
               ),
@@ -144,7 +146,7 @@ void sendimage() async
               ),
               ElevatedButton(
                 onPressed: () {
-                  sendimage();
+                  sendPicture(widget.taskId, _imageFile);
                 },
                 child: Text(S.of(context).Simage),
               )
@@ -201,7 +203,7 @@ class AppDrawer extends StatelessWidget {
             title: Text(S.of(context).LogOut),
             onTap: () async {
               var reponse = await signout();
-              print (reponse);
+              print(reponse);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => LoginPage()),
@@ -213,6 +215,3 @@ class AppDrawer extends StatelessWidget {
     );
   }
 }
-
-
-

@@ -100,7 +100,7 @@ class _CreationPageState extends State<CreationPage> {
                   print(reponse);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SignUpForm()),
+                    MaterialPageRoute(builder: (context) => HomePage()),
                   );
                 },
                 child: Text(S.of(context).AddATask),

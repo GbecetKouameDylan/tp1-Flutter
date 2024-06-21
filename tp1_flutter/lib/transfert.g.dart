@@ -47,34 +47,46 @@ Map<String, dynamic> _$AddTaskRequestToJson(AddTaskRequest instance) =>
       'deadline': instance.deadline.toIso8601String(),
     };
 
-HomeItemResponse _$HomeItemResponseFromJson(Map<String, dynamic> json) =>
-    HomeItemResponse()
+HomeItemPhotoResponse _$HomeItemPhotoResponseFromJson(
+        Map<String, dynamic> json) =>
+    HomeItemPhotoResponse()
+      ..id = (json['id'] as num).toInt()
       ..name = json['name'] as String
       ..deadline = DateTime.parse(json['deadline'] as String)
       ..percentageDone = (json['percentageDone'] as num).toInt()
-      ..percentageTimeSpent = (json['percentageTimeSpent'] as num).toDouble();
+      ..percentageTimeSpent = (json['percentageTimeSpent'] as num).toDouble()
+      ..photoId = (json['photoId'] as num).toInt();
 
-Map<String, dynamic> _$HomeItemResponseToJson(HomeItemResponse instance) =>
+Map<String, dynamic> _$HomeItemPhotoResponseToJson(
+        HomeItemPhotoResponse instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'deadline': instance.deadline.toIso8601String(),
       'percentageDone': instance.percentageDone,
       'percentageTimeSpent': instance.percentageTimeSpent,
+      'photoId': instance.photoId,
     };
 
-TaskDetailResponse _$TaskDetailResponseFromJson(Map<String, dynamic> json) =>
-    TaskDetailResponse()
+TaskDetailPhotoResponse _$TaskDetailPhotoResponseFromJson(
+        Map<String, dynamic> json) =>
+    TaskDetailPhotoResponse()
+      ..id = (json['id'] as num).toInt()
       ..name = json['name'] as String
       ..deadline = DateTime.parse(json['deadline'] as String)
       ..percentageDone = (json['percentageDone'] as num).toInt()
-      ..percentageTimeSpent = (json['percentageTimeSpent'] as num).toDouble();
+      ..percentageTimeSpent = (json['percentageTimeSpent'] as num).toDouble()
+      ..photoId = (json['photoId'] as num).toInt();
 
-Map<String, dynamic> _$TaskDetailResponseToJson(TaskDetailResponse instance) =>
+Map<String, dynamic> _$TaskDetailPhotoResponseToJson(
+        TaskDetailPhotoResponse instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'deadline': instance.deadline.toIso8601String(),
       'percentageDone': instance.percentageDone,
       'percentageTimeSpent': instance.percentageTimeSpent,
+      'photoId': instance.photoId,
     };
 
 TrucAvecUneDate _$TrucAvecUneDateFromJson(Map<String, dynamic> json) =>

@@ -1,10 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tp1_flutter/connexion.dart';
 import 'package:tp1_flutter/consultation.dart';
 import 'package:tp1_flutter/creation.dart';
 import 'package:tp1_flutter/lib_http.dart';
-import 'package:tp1_flutter/main.dart';
 import 'package:tp1_flutter/transfert.dart';
 
 import 'generated/l10n.dart';
@@ -41,8 +41,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  List<HomeItemResponse> homeItems = [];
-
+  List<HomeItemPhotoResponse> homeItems = [];
+  bool loading = false;
   @override
   void initState() {
     super.initState();
@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> Liste() async {
     try {
-      List<HomeItemResponse> items = await home();
+      List<HomeItemPhotoResponse> items = await home();
       setState(() {
         homeItems = items;
       });
@@ -72,69 +72,35 @@ class _HomePageState extends State<HomePage> {
         child: ListView.builder(
           itemCount: homeItems.length,
           itemBuilder: (context, index) {
-            return Card(
-              child: ListTile(
-                title: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ConsultationPage(
-                          leParametre1: homeItems[index].deadline ,
-                          leParametre2: homeItems[index].percentageDone,
-                          leParametre3: homeItems[index].percentageTimeSpent
-                      ),
-                      ),
-                    );
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ConsultationPage(
+                      taskId: homeItems[index].id,
+                  ),
+                  ),
+                );
 
-                  },
-                  child: Text(homeItems[index].name),
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                            MaterialPageRoute(builder: (context) => ConsultationPage(
-                            leParametre1: homeItems[index].deadline ,
-                            leParametre2: homeItems[index].percentageDone,
-                            leParametre3: homeItems[index].percentageTimeSpent
-                        ),
-                        ),
-                        );
-                      },
-                      child: Text(' ${homeItems[index].deadline.toString()}'),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ConsultationPage(
-                              leParametre1: homeItems[index].deadline ,
-                              leParametre2: homeItems[index].percentageDone,
-                              leParametre3: homeItems[index].percentageTimeSpent
-                          ),
-                          ),
-                        );
-                      },
-                      child: Text(' ${homeItems[index].percentageDone}%'),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ConsultationPage(
-                              leParametre1: homeItems[index].deadline ,
-                              leParametre2: homeItems[index].percentageDone,
-                              leParametre3: homeItems[index].percentageTimeSpent
-                          ),
-                          ),
-                        );
-                      },
-                      child: Text(' ${homeItems[index].percentageTimeSpent}%'),
-                    ),
-                  ],
+              },
+              child: Card(
+                child: ListTile(
+                  title: Text(homeItems[index].name),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CachedNetworkImage(
+                        imageUrl: "http://10.0.2.2:8080/file/${homeItems[index].photoId}",
+                        progressIndicatorBuilder: (context, url, downloadProgress) =>
+                            CircularProgressIndicator(value: downloadProgress.progress),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        width: 100,
+                      ),
+                      Text(' ${homeItems[index].deadline.toString()}'),
+                      Text(' ${homeItems[index].percentageDone}%'),
+                      Text(' ${homeItems[index].percentageTimeSpent}%'),
+                    ],
+                  ),
                 ),
               ),
             );

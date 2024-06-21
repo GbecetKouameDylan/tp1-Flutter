@@ -34,16 +34,16 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key? key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _SignUpPageState extends State<SignUpPage> {
 
 
 
