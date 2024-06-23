@@ -73,7 +73,7 @@ class _SignUpFormState extends State<SignUpForm> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
-
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +83,14 @@ class _SignUpFormState extends State<SignUpForm> {
         children: <Widget>[
           TextFormField(
             controller: _usernameController,
-            decoration: InputDecoration(labelText: S.of(context).userName),
+            decoration: InputDecoration(labelText: S
+                .of(context)
+                .userName),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return S.of(context).QName;
+                return S
+                    .of(context)
+                    .QName;
               }
               return null;
             },
@@ -94,11 +98,15 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: 20.0),
           TextFormField(
             controller: _passwordController,
-            decoration: InputDecoration(labelText: S.of(context).Password),
+            decoration: InputDecoration(labelText: S
+                .of(context)
+                .Password),
             obscureText: true,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return S.of(context).QPassword;
+                return S
+                    .of(context)
+                    .QPassword;
               }
 
               return null;
@@ -106,25 +114,48 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
           SizedBox(height: 20.0),
           ElevatedButton(
-            onPressed: () async {
-              SignupRequest req = SignupRequest();
-              req.username = _usernameController.text;
-              req.password = _passwordController.text;
-              var reponse = await signup(req);
-              UserSession.getInstance().setUsername(reponse.username);
-              print(reponse);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage(),
-                ),
-              );
-            },
-            child: Text(S.of(context).Signup),
+            onPressed: loading?null:Signup,
+            child: loading?CircularProgressIndicator():
+            Text(S.of(context).Connexion),
           ),
         ],
       ),
     );
   }
+
+  Future<void> Signup() async {
+    setState(() {
+      this.loading = true;
+    });
+    try {
+      SignupRequest req = SignupRequest();
+      req.username = _usernameController.text;
+      req.password = _passwordController.text;
+      var reponse = await signup(req);
+      setState(() {
+        this.loading = false;
+      });
+      UserSession.getInstance().setUsername(reponse.username);
+      print(reponse);
+      Navigator.push(
+          context, MaterialPageRoute(
+        builder: (context) => HomePage(),
+      )
+      );
+    }
+    on DioException catch (e) {
+      setState(() {
+        this.loading = false;
+      });
+      print(e);
+      String message = e.response!.data;
+      if (message == "BadCredentialsException") {
+        print('login deja utilise');
+      } else {
+        print('autre erreurs');
+      }
+    }
+  }
 }
+
 

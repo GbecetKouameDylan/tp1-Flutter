@@ -47,16 +47,25 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     Liste();
+
   }
 
   Future<void> Liste() async {
     try {
+      setState(() {
+        loading = true;
+      });
       List<HomeItemPhotoResponse> items = await home();
       setState(() {
         homeItems = items;
+loading = false;
       });
     } catch (e) {
+      setState(() {
+        loading = false;
+      });
       print(e);
+
     }
   }
 
@@ -67,7 +76,7 @@ class _HomePageState extends State<HomePage> {
         title: Text(S.of(context).Home),
       ),
       drawer: AppDrawer(),
-      body: Padding(
+      body: loading?CircularProgressIndicator():Padding(
         padding: EdgeInsets.all(20.0),
         child: ListView.builder(
           itemCount: homeItems.length,
@@ -83,7 +92,8 @@ class _HomePageState extends State<HomePage> {
                 );
 
               },
-              child: Card(
+              child:
+              Card(
                 child: ListTile(
                   title: Text(homeItems[index].name),
                   subtitle: Column(

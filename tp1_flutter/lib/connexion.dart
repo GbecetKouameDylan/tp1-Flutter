@@ -82,7 +82,7 @@ bool loading = false;
               SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: loading?null:Signin,
-                child: this.loading?CircularProgressIndicator():
+                child: loading?CircularProgressIndicator():
                 Text(S.of(context).Connexion),
               ),
               SizedBox(height: 20.0),
