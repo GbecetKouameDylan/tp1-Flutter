@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  LoginPage(),
+      home: LoginPage(),
     );
   }
 }
@@ -76,15 +76,21 @@ class SignUpForm extends StatefulWidget {
 class _SignUpFormState extends State<SignUpForm> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   bool loading = false;
+  String errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: LayoutBuilder(
         builder: (context, constraints) {
-          bool isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+          bool isLandscape = MediaQuery
+              .of(context)
+              .orientation == Orientation.landscape;
           return isLandscape
               ? Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -106,10 +112,14 @@ class _SignUpFormState extends State<SignUpForm> {
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
             controller: _usernameController,
-            decoration: InputDecoration(labelText: S.of(context).userName),
+            decoration: InputDecoration(labelText: S
+                .of(context)
+                .userName),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return S.of(context).QName;
+                return S
+                    .of(context)
+                    .QName;
               }
               return null;
             },
@@ -122,11 +132,15 @@ class _SignUpFormState extends State<SignUpForm> {
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
             controller: _passwordController,
-            decoration: InputDecoration(labelText: S.of(context).Password),
+            decoration: InputDecoration(labelText: S
+                .of(context)
+                .Password),
             obscureText: true,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return S.of(context).QPassword;
+                return S
+                    .of(context)
+                    .QPassword;
               }
               return null;
             },
@@ -134,46 +148,108 @@ class _SignUpFormState extends State<SignUpForm> {
         ),
       ),
       SizedBox(width: isLandscape ? 20.0 : 0, height: isLandscape ? 0 : 20.0),
+      Flexible(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
+            controller: _confirmPasswordController,
+            decoration: InputDecoration(labelText: S
+                .of(context)
+                .ConfirmPassword),
+            obscureText: true,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return S
+                    .of(context)
+                    .QConfirmPassword;
+              }
+              if (value != _passwordController.text) {
+                return S
+                    .of(context)
+                    .PasswordsDoNotMatch;
+              }
+              return null;
+            },
+          ),
+        ),
+      ),
+      SizedBox(width: isLandscape ? 20.0 : 0, height: isLandscape ? 0 : 20.0),
+      if (errorMessage.isNotEmpty)
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            errorMessage,
+            style: TextStyle(color: Colors.red),
+          ),
+        ),
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
           onPressed: loading ? null : Signup,
-          child: loading ? CircularProgressIndicator() : Text(S.of(context).Connexion),
+          child: loading ? CircularProgressIndicator() : Text(S
+              .of(context)
+              .Connexion),
         ),
       ),
     ];
   }
 
   Future<void> Signup() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
     setState(() {
       loading = true;
+      errorMessage = '';
     });
+
     try {
       SignupRequest req = SignupRequest();
       req.username = _usernameController.text;
       req.password = _passwordController.text;
-      var reponse = await signup(req);
+      var response = await signup(req);
+
       setState(() {
         loading = false;
       });
-      UserSession.getInstance().setUsername(reponse.username);
-      print(reponse);
+
+      UserSession.getInstance().setUsername(response.username);
       Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(),
-        ),
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
     } on DioException catch (e) {
       setState(() {
         loading = false;
       });
-      print(e);
+
       String message = e.response!.data;
-      if (message == "BadCredentialsException") {
-        print('login deja utilise');
-      } else {
-        print('autre erreurs');
+      if (message == "UsernameAlreadyTaken") {
+        setState(() {
+          errorMessage = S
+              .of(context)
+              .UsernameTaken;
+        });
+      } else if (message == "NetworkError") {
+        setState(() {
+          errorMessage = S
+              .of(context)
+              .NetworkError;
+        });
+      } else if (message == "UsernameTooShort") {
+        setState(() {
+          errorMessage = S
+              .of(context)
+              .UsernameTooShort;
+        });
+      }
+      else if (message == "PasswordTooShort") {
+        setState(() {
+          errorMessage = S
+              .of(context)
+              .PasswordTooShort;
+        });
       }
     }
   }

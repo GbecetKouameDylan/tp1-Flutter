@@ -25,6 +25,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "AddATask": MessageLookupByLibrary.simpleMessage("Add a task"),
         "Change": MessageLookupByLibrary.simpleMessage("Swicht the percentage"),
         "Choose": MessageLookupByLibrary.simpleMessage("Chosse a date"),
+        "ConfirmPassword": MessageLookupByLibrary.simpleMessage(
+            "Confirmation of your Password"),
         "Connexion": MessageLookupByLibrary.simpleMessage("Connexion"),
         "Consultation": MessageLookupByLibrary.simpleMessage("Consulatation"),
         "Creationoftask":
@@ -36,9 +38,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "NetworkError": MessageLookupByLibrary.simpleMessage("No connection"),
         "Number": MessageLookupByLibrary.simpleMessage("Number"),
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
+        "PasswordTooShort":
+            MessageLookupByLibrary.simpleMessage("Password to short"),
+        "PasswordsDoNotMatch":
+            MessageLookupByLibrary.simpleMessage("Password do not macht"),
         "Percentage": MessageLookupByLibrary.simpleMessage("Task Percentage :"),
         "PercentageDeadline": MessageLookupByLibrary.simpleMessage(
             "Percentage between the date of the Task and now :"),
+        "QConfirmPassword":
+            MessageLookupByLibrary.simpleMessage("Confimr youre Password"),
         "QName": MessageLookupByLibrary.simpleMessage("Enter a username"),
         "QNumber": MessageLookupByLibrary.simpleMessage("Enter a number"),
         "QPassword": MessageLookupByLibrary.simpleMessage("Enter a password"),
@@ -48,6 +56,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Signup": MessageLookupByLibrary.simpleMessage("Signup"),
         "Simage": MessageLookupByLibrary.simpleMessage("Send a image"),
         "Task": MessageLookupByLibrary.simpleMessage("Task"),
+        "UsernameTaken":
+            MessageLookupByLibrary.simpleMessage("Username is already taken"),
+        "UsernameTooShort":
+            MessageLookupByLibrary.simpleMessage("Username too short"),
         "userName": MessageLookupByLibrary.simpleMessage("Username")
       };
 }

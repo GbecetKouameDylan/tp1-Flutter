@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tp1_flutter/home.dart';
+import 'package:tp1_flutter/main.dart';
 import 'package:tp1_flutter/transfert.dart';
 import 'generated/l10n.dart';
 import 'lib_http.dart';
@@ -57,14 +58,18 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.of(context).Connexion),
+        title: Text(S
+            .of(context)
+            .Connexion),
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
         child: Form(
           child: LayoutBuilder(
             builder: (context, constraints) {
-              bool isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+              bool isLandscape = MediaQuery
+                  .of(context)
+                  .orientation == Orientation.landscape;
               return isLandscape
                   ? Row(
                 children: buildFormChildren(context, isLandscape),
@@ -87,10 +92,14 @@ class _LoginPageState extends State<LoginPage> {
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
             controller: _nomController,
-            decoration: InputDecoration(labelText: S.of(context).userName),
+            decoration: InputDecoration(labelText: S
+                .of(context)
+                .userName),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return S.of(context).QName;
+                return S
+                    .of(context)
+                    .QName;
               }
               return null;
             },
@@ -103,11 +112,15 @@ class _LoginPageState extends State<LoginPage> {
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
             controller: _passwordController,
-            decoration: InputDecoration(labelText: S.of(context).Password),
+            decoration: InputDecoration(labelText: S
+                .of(context)
+                .Password),
             obscureText: true,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return S.of(context).QPassword;
+                return S
+                    .of(context)
+                    .QPassword;
               }
               return null;
             },
@@ -119,7 +132,9 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
           onPressed: loading ? null : Signin,
-          child: loading ? CircularProgressIndicator() : Text(S.of(context).Connexion),
+          child: loading ? CircularProgressIndicator() : Text(S
+              .of(context)
+              .Connexion),
         ),
       ),
       Padding(
@@ -129,11 +144,16 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => SignUpPage(title: S.of(context).Signup),
+                builder: (context) =>
+                    SignUpPage(title: S
+                        .of(context)
+                        .Signup),
               ),
             );
           },
-          child: Text(S.of(context).Signup),
+          child: Text(S
+              .of(context)
+              .Signup),
         ),
       ),
     ];
@@ -171,23 +191,5 @@ class _LoginPageState extends State<LoginPage> {
         print('autre erreurs');
       }
     }
-  }
-}
-
-class SignUpPage extends StatelessWidget {
-  final String title;
-
-  const SignUpPage({Key? key, required this.title}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: Text("Sign Up Page"),
-      ),
-    );
   }
 }

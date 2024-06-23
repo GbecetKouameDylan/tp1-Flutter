@@ -26,6 +26,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Change": MessageLookupByLibrary.simpleMessage(
             "Changer le pourcentage d avancement"),
         "Choose": MessageLookupByLibrary.simpleMessage("Sélectionner une date"),
+        "ConfirmPassword": MessageLookupByLibrary.simpleMessage(
+            "Confirmation de mot de passe "),
         "Connexion": MessageLookupByLibrary.simpleMessage("Se connecter"),
         "Consultation": MessageLookupByLibrary.simpleMessage("Consulatation"),
         "Creationoftask":
@@ -38,10 +40,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Pas de  connection"),
         "Number": MessageLookupByLibrary.simpleMessage("Nombre"),
         "Password": MessageLookupByLibrary.simpleMessage("Mot de passe"),
+        "PasswordTooShort": MessageLookupByLibrary.simpleMessage(
+            "le mot de passe est trop court"),
         "Percentage":
             MessageLookupByLibrary.simpleMessage("Pourcentage de la Tache :"),
         "PercentageDeadline": MessageLookupByLibrary.simpleMessage(
             "Pourcentage de temps écoulé depuis la création de la tâche :"),
+        "QConfirmPassword":
+            MessageLookupByLibrary.simpleMessage("Confimer votre mot de passe"),
         "QName": MessageLookupByLibrary.simpleMessage(
             "Veuillez entrer un nom d\'utilisateur"),
         "QNumber": MessageLookupByLibrary.simpleMessage("Enter un nombre"),
@@ -53,6 +59,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Signup": MessageLookupByLibrary.simpleMessage("S\'inscrire"),
         "Simage": MessageLookupByLibrary.simpleMessage("Envoyer une image"),
         "Task": MessageLookupByLibrary.simpleMessage("Tache"),
+        "UsernameTaken": MessageLookupByLibrary.simpleMessage(
+            "nom d\'uttilisateur deja pris"),
+        "UsernameTooShort":
+            MessageLookupByLibrary.simpleMessage("le nom est trop court"),
         "userName": MessageLookupByLibrary.simpleMessage("nom d\'utilisateur")
       };
 }

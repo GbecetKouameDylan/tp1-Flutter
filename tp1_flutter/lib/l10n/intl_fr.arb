@@ -22,5 +22,10 @@
   "Image": "Choisi une image",
 "Simage": "Envoyer une image",
   "NetworkError": "Pas de  connection",
-  "Retry": "Ressayer"
+  "Retry": "Ressayer",
+  "ConfirmPassword": "Confirmation de mot de passe ",
+  "QConfirmPassword": "Confimer votre mot de passe",
+  "UsernameTaken": "nom d'uttilisateur deja pris",
+  "UsernameTooShort": "le nom est trop court",
+  "PasswordTooShort":"le mot de passe est trop court"
 }

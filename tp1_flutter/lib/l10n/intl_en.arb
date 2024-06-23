@@ -3,6 +3,7 @@
   "QName": "Enter a username",
   "Password": "Password",
   "QPassword": "Enter a password",
+  "QConfirmPassword": "Confimr youre Password",
   "Signup": "Signup",
   "Home": "Home",
   "Deadline": "Deadline",
@@ -22,5 +23,10 @@
   "Image": "Choose a image",
   "Simage": "Send a image",
   "NetworkError": "No connection",
-  "Retry": "Retry"
+  "Retry": "Retry",
+  "ConfirmPassword": "Confirmation of your Password",
+  "PasswordsDoNotMatch": "Password do not macht",
+  "UsernameTaken": "Username is already taken",
+  "UsernameTooShort": "Username too short",
+  "PasswordTooShort":"Password to short"
 }

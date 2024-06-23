@@ -90,6 +90,16 @@ class S {
     );
   }
 
+  /// `Confimr youre Password`
+  String get QConfirmPassword {
+    return Intl.message(
+      'Confimr youre Password',
+      name: 'QConfirmPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Signup`
   String get Signup {
     return Intl.message(
@@ -285,6 +295,56 @@ class S {
     return Intl.message(
       'Retry',
       name: 'Retry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirmation of your Password`
+  String get ConfirmPassword {
+    return Intl.message(
+      'Confirmation of your Password',
+      name: 'ConfirmPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password do not macht`
+  String get PasswordsDoNotMatch {
+    return Intl.message(
+      'Password do not macht',
+      name: 'PasswordsDoNotMatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Username is already taken`
+  String get UsernameTaken {
+    return Intl.message(
+      'Username is already taken',
+      name: 'UsernameTaken',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Username too short`
+  String get UsernameTooShort {
+    return Intl.message(
+      'Username too short',
+      name: 'UsernameTooShort',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password to short`
+  String get PasswordTooShort {
+    return Intl.message(
+      'Password to short',
+      name: 'PasswordTooShort',
       desc: '',
       args: [],
     );
