@@ -33,6 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Home": MessageLookupByLibrary.simpleMessage("Home"),
         "Image": MessageLookupByLibrary.simpleMessage("Choose a image"),
         "LogOut": MessageLookupByLibrary.simpleMessage("Log out"),
+        "NetworkError": MessageLookupByLibrary.simpleMessage("No connection"),
         "Number": MessageLookupByLibrary.simpleMessage("Number"),
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
         "Percentage": MessageLookupByLibrary.simpleMessage("Task Percentage :"),
@@ -43,6 +44,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "QPassword": MessageLookupByLibrary.simpleMessage("Enter a password"),
         "QTask":
             MessageLookupByLibrary.simpleMessage("Enter a name for your task"),
+        "Retry": MessageLookupByLibrary.simpleMessage("Retry"),
         "Signup": MessageLookupByLibrary.simpleMessage("Signup"),
         "Simage": MessageLookupByLibrary.simpleMessage("Send a image"),
         "Task": MessageLookupByLibrary.simpleMessage("Task"),

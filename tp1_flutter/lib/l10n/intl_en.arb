@@ -20,5 +20,7 @@
   "PercentageDeadline": "Percentage between the date of the Task and now :",
   "Connexion": "Connexion",
   "Image": "Choose a image",
-  "Simage": "Send a image"
+  "Simage": "Send a image",
+  "NetworkError": "No connection",
+  "Retry": "Retry"
 }

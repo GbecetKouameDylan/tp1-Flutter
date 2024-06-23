@@ -34,6 +34,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Home": MessageLookupByLibrary.simpleMessage("Accueil"),
         "Image": MessageLookupByLibrary.simpleMessage("Choisi une image"),
         "LogOut": MessageLookupByLibrary.simpleMessage("Deconnecter"),
+        "NetworkError":
+            MessageLookupByLibrary.simpleMessage("Pas de  connection"),
         "Number": MessageLookupByLibrary.simpleMessage("Nombre"),
         "Password": MessageLookupByLibrary.simpleMessage("Mot de passe"),
         "Percentage":
@@ -47,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Veuillez entrer un mot de passe"),
         "QTask": MessageLookupByLibrary.simpleMessage(
             "Veuillez entrer un nom de tache"),
+        "Retry": MessageLookupByLibrary.simpleMessage("Ressayer"),
         "Signup": MessageLookupByLibrary.simpleMessage("S\'inscrire"),
         "Simage": MessageLookupByLibrary.simpleMessage("Envoyer une image"),
         "Task": MessageLookupByLibrary.simpleMessage("Tache"),

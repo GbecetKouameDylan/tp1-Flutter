@@ -269,6 +269,26 @@ class S {
       args: [],
     );
   }
+
+  /// `No connection`
+  String get NetworkError {
+    return Intl.message(
+      'No connection',
+      name: 'NetworkError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get Retry {
+    return Intl.message(
+      'Retry',
+      name: 'Retry',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

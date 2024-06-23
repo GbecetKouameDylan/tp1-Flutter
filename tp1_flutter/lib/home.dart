@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      home: HomePage(),
     );
   }
 }
@@ -40,32 +41,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   List<HomeItemPhotoResponse> homeItems = [];
   bool loading = false;
+  bool hasError = false;
+
   @override
   void initState() {
     super.initState();
-    Liste();
-
+    fetchData();
   }
 
-  Future<void> Liste() async {
+  Future<void> fetchData() async {
     try {
       setState(() {
         loading = true;
+        hasError = false;
       });
       List<HomeItemPhotoResponse> items = await home();
       setState(() {
         homeItems = items;
-loading = false;
+        loading = false;
       });
     } catch (e) {
       setState(() {
         loading = false;
+        hasError = true;
       });
       print(e);
-
     }
   }
 
@@ -76,7 +78,23 @@ loading = false;
         title: Text(S.of(context).Home),
       ),
       drawer: AppDrawer(),
-      body: loading?CircularProgressIndicator():Padding(
+      body: loading
+          ? Center(child: CircularProgressIndicator())
+          : hasError
+          ? Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(S.of(context).NetworkError),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: fetchData,
+              child: Text(S.of(context).Retry),
+            ),
+          ],
+        ),
+      )
+          : Padding(
         padding: EdgeInsets.all(20.0),
         child: ListView.builder(
           itemCount: homeItems.length,
@@ -85,30 +103,36 @@ loading = false;
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ConsultationPage(
+                  MaterialPageRoute(
+                    builder: (context) => ConsultationPage(
                       taskId: homeItems[index].id,
-                  ),
+                    ),
                   ),
                 );
-
               },
-              child:
-              Card(
+              child: Card(
                 child: ListTile(
                   title: Text(homeItems[index].name),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CachedNetworkImage(
-                        imageUrl: "http://10.0.2.2:8080/file/${homeItems[index].photoId}",
-                        progressIndicatorBuilder: (context, url, downloadProgress) =>
-                            CircularProgressIndicator(value: downloadProgress.progress),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        imageUrl:
+                        "http://10.0.2.2:8080/file/${homeItems[index].photoId}",
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                        errorWidget: (context, url, error) =>
+                            Icon(Icons.error),
                         width: 100,
                       ),
-                      Text(' ${homeItems[index].deadline.toString()}'),
-                      Text(' ${homeItems[index].percentageDone}%'),
-                      Text(' ${homeItems[index].percentageTimeSpent}%'),
+                      Text(
+                          ' ${homeItems[index].deadline.toString()}'),
+                      Text(
+                          ' ${homeItems[index].percentageDone}%'),
+                      Text(
+                          ' ${homeItems[index].percentageTimeSpent}%'),
                     ],
                   ),
                 ),
@@ -117,21 +141,20 @@ loading = false;
           },
         ),
       ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CreationPage()),
-            );
-          },
-          tooltip: 'Increment',
-          child: const Icon(Icons.add),
-        )
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CreationPage()),
+          );
+        },
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
 
-// Ajout du tiroir de navigation
 class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -175,8 +198,8 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.settings),
             title: Text(S.of(context).LogOut),
             onTap: () async {
-              var reponse = await signout();
-              print (reponse);
+              var response = await signout();
+              print(response);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => LoginPage()),
@@ -186,10 +209,8 @@ class AppDrawer extends StatelessWidget {
         ],
       ),
     );
-
   }
 }
-
 
 
 

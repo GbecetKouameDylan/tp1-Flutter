@@ -7,9 +7,18 @@ import 'package:tp1_flutter/home.dart';
 import 'package:tp1_flutter/transfert.dart';
 import 'generated/l10n.dart';
 import 'lib_http.dart';
+import 'package:flutter/services.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]).then((_) {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -44,11 +53,6 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,54 +82,71 @@ class _SignUpFormState extends State<SignUpForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          TextFormField(
-            controller: _usernameController,
-            decoration: InputDecoration(labelText: S
-                .of(context)
-                .userName),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return S
-                    .of(context)
-                    .QName;
-              }
-              return null;
-            },
-          ),
-          SizedBox(height: 20.0),
-          TextFormField(
-            controller: _passwordController,
-            decoration: InputDecoration(labelText: S
-                .of(context)
-                .Password),
-            obscureText: true,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return S
-                    .of(context)
-                    .QPassword;
-              }
-
-              return null;
-            },
-          ),
-          SizedBox(height: 20.0),
-          ElevatedButton(
-            onPressed: loading?null:Signup,
-            child: loading?CircularProgressIndicator():
-            Text(S.of(context).Connexion),
-          ),
-        ],
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          bool isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+          return isLandscape
+              ? Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: buildFormChildren(context, isLandscape),
+          )
+              : Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: buildFormChildren(context, isLandscape),
+          );
+        },
       ),
     );
   }
 
+  List<Widget> buildFormChildren(BuildContext context, bool isLandscape) {
+    return <Widget>[
+      Flexible(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
+            controller: _usernameController,
+            decoration: InputDecoration(labelText: S.of(context).userName),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return S.of(context).QName;
+              }
+              return null;
+            },
+          ),
+        ),
+      ),
+      SizedBox(width: isLandscape ? 20.0 : 0, height: isLandscape ? 0 : 20.0),
+      Flexible(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
+            controller: _passwordController,
+            decoration: InputDecoration(labelText: S.of(context).Password),
+            obscureText: true,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return S.of(context).QPassword;
+              }
+              return null;
+            },
+          ),
+        ),
+      ),
+      SizedBox(width: isLandscape ? 20.0 : 0, height: isLandscape ? 0 : 20.0),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ElevatedButton(
+          onPressed: loading ? null : Signup,
+          child: loading ? CircularProgressIndicator() : Text(S.of(context).Connexion),
+        ),
+      ),
+    ];
+  }
+
   Future<void> Signup() async {
     setState(() {
-      this.loading = true;
+      loading = true;
     });
     try {
       SignupRequest req = SignupRequest();
@@ -133,19 +154,19 @@ class _SignUpFormState extends State<SignUpForm> {
       req.password = _passwordController.text;
       var reponse = await signup(req);
       setState(() {
-        this.loading = false;
+        loading = false;
       });
       UserSession.getInstance().setUsername(reponse.username);
       print(reponse);
       Navigator.push(
-          context, MaterialPageRoute(
-        builder: (context) => HomePage(),
-      )
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ),
       );
-    }
-    on DioException catch (e) {
+    } on DioException catch (e) {
       setState(() {
-        this.loading = false;
+        loading = false;
       });
       print(e);
       String message = e.response!.data;
@@ -157,5 +178,3 @@ class _SignUpFormState extends State<SignUpForm> {
     }
   }
 }
-
-
