@@ -1,9 +1,10 @@
 import 'dart:ffi';
 import 'dart:io';
-
+import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:tp1_flutter/connexion.dart';
 import 'package:tp1_flutter/creation.dart';
@@ -34,54 +35,64 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      home: ConsultationPage(taskId: 1), // Assuming you have a taskId to provide
     );
   }
 }
 
 class ConsultationPage extends StatefulWidget {
-  @override
-
-
   final int taskId;
 
-  const ConsultationPage(
-      {Key? key,
-        required this.taskId,
-      })
-      : super(key: key);
+  const ConsultationPage({Key? key, required this.taskId}) : super(key: key);
 
+  @override
   _ConsultationPageState createState() => _ConsultationPageState();
 }
 
 class _ConsultationPageState extends State<ConsultationPage> {
   String imageURL = "";
   String imagepath = "";
-  var _imageFile;
+  File? _imageFile;
 
-  void getimage() async {
+  void getImage() async {
     ImagePicker picker = ImagePicker();
 
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      print("l'image a ete choisie ${pickedFile.path}");
-      _imageFile = File(pickedFile.path);
+      print("L'image a été choisie ${pickedFile.path}");
+      _imageFile = await resizeImage(File(pickedFile.path));
     }
     setState(() {});
   }
 
-  TaskDetailPhotoResponse ?tachecourante ;
+  Future<File> resizeImage(File file) async {
+    // Read the image from file
+    img.Image? image = img.decodeImage(file.readAsBytesSync());
+
+    // Resize the image to a maximum width of 600 pixels
+    img.Image resized = img.copyResize(image!, width: 600);
+
+    // Get the new file path
+    final tempDir = Directory.systemTemp;
+    final resizedImagePath = '${tempDir.path}/resized_image.jpg';
+
+    // Write the resized image to file
+    File resizedImageFile = File(resizedImagePath)
+      ..writeAsBytesSync(img.encodeJpg(resized));
+
+    return resizedImageFile;
+  }
+
+  TaskDetailPhotoResponse? tachecourante;
 
   @override
   void initState() {
     getTask();
     super.initState();
-
   }
 
-
-  Future <TaskDetailPhotoResponse> getTask() async {
-    //lib http gettask()
-TaskDetailPhotoResponse taskDetailResponse = await Detail(widget.taskId);
+  Future<TaskDetailPhotoResponse> getTask() async {
+    TaskDetailPhotoResponse taskDetailResponse = await Detail(widget.taskId);
     setState(() {
       tachecourante = taskDetailResponse;
     });
@@ -101,21 +112,21 @@ TaskDetailPhotoResponse taskDetailResponse = await Detail(widget.taskId);
         padding: EdgeInsets.all(20.0),
         child: Form(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _imageFile != null ? Image.file(_imageFile) : Spacer(),
-              Text(S.of(context).Deadline),
-              SizedBox(height: 10.0),
+              _imageFile != null
+                  ? Image.file(
+                _imageFile!,
+                fit: BoxFit.contain,
+                width: double.infinity,
+                height: 200,
+              )
+                  : Text(S.of(context).Deadline),
               Text("${tachecourante?.deadline}"),
-              SizedBox(height: 10.0),
               Text(S.of(context).Percentage),
-              SizedBox(height: 10.0),
               Text("${tachecourante?.percentageDone}"),
-              SizedBox(height: 10.0),
               Text(S.of(context).PercentageDeadline),
-              SizedBox(height: 10.0),
               Text("${tachecourante?.percentageTimeSpent}"),
-              SizedBox(height: 10.0),
               TextFormField(
                 controller: _pourcentageController,
                 decoration: InputDecoration(labelText: S.of(context).Number),
@@ -123,33 +134,32 @@ TaskDetailPhotoResponse taskDetailResponse = await Detail(widget.taskId);
                   if (value == null || value.isEmpty) {
                     return S.of(context).QNumber;
                   }
-
                   return null;
                 },
               ),
-              SizedBox(height: 10.0),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomePage(),
-                      ));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(),
+                    ),
+                  );
                 },
                 child: Text(S.of(context).Change),
               ),
               ElevatedButton(
                 onPressed: () {
-                  getimage();
+                  getImage();
                 },
                 child: Text(S.of(context).Image),
               ),
               ElevatedButton(
                 onPressed: () {
-                  sendPicture(widget.taskId, _imageFile);
+                  sendPicture(widget.taskId, _imageFile!);
                 },
                 child: Text(S.of(context).Simage),
-              )
+              ),
             ],
           ),
         ),
@@ -158,7 +168,6 @@ TaskDetailPhotoResponse taskDetailResponse = await Detail(widget.taskId);
   }
 }
 
-// Ajout du tiroir de navigation
 class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
