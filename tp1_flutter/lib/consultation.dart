@@ -35,7 +35,6 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: ConsultationPage(taskId: 1), // Assuming you have a taskId to provide
     );
   }
 }
@@ -66,17 +65,17 @@ class _ConsultationPageState extends State<ConsultationPage> {
   }
 
   Future<File> resizeImage(File file) async {
-    // Read the image from file
+
     img.Image? image = img.decodeImage(file.readAsBytesSync());
 
-    // Resize the image to a maximum width of 600 pixels
+
     img.Image resized = img.copyResize(image!, width: 600);
 
-    // Get the new file path
+
     final tempDir = Directory.systemTemp;
     final resizedImagePath = '${tempDir.path}/resized_image.jpg';
 
-    // Write the resized image to file
+
     File resizedImageFile = File(resizedImagePath)
       ..writeAsBytesSync(img.encodeJpg(resized));
 
@@ -157,6 +156,7 @@ class _ConsultationPageState extends State<ConsultationPage> {
               ElevatedButton(
                 onPressed: () {
                   sendPicture(widget.taskId, _imageFile!);
+
                 },
                 child: Text(S.of(context).Simage),
               ),
